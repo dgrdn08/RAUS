@@ -223,6 +223,9 @@ def intra_struct(df,intra_cols,ns_list,method,outcome_name,site,adjusted,track,m
         dag2.index = intra_cols # for easier review to redraw structures in another software
     path = './intraStructures/matrix_form'
 
+    if track == "Track2:3":
+        dag2.to_csv(path + '/' +  method + '_intra_structure_w_column_names_' + outcome_name + '_' + site + adjusted + '_' + track + '.csv') # for easier review to redraw structures in another software
+
     np.save(path + '/' +  method + '_intra_structure_' + outcome_name + '_' + site + adjusted+'_' + track, dag)
 
     #print(dag)
@@ -311,6 +314,8 @@ def inter_struct(df,inter_cols,ns_list,method,outcome_name,site,adjusted,sequenc
         inter_structure2 = pd.DataFrame(inter_structure, columns=inter_cols[intraLength:intraLength*2]) # for easier review to redraw structures in another software
         inter_structure2.index = inter_cols[:intraLength] # for easier review to redraw structures in another software
     path = './interStructures/matrix_form'
+
+    inter_structure2.to_csv(path + '/' +  method + '_inter_structure_w_column_names_' + outcome_name + '_' + site + adjusted + '_' + track + '.csv') # for easier review to redraw structures in another software
 
     np.save(path + '/' +  method + '_inter_structure_' + outcome_name + '_' + site + adjusted + '_' + track, inter_structure)
 
