@@ -212,8 +212,8 @@ def intra_struct(df,intra_cols,ns_list,method,outcome_name,site,adjusted,track,m
     """
     print("Learning the intra-structure...")
     intraLength = len(ns_list)
-    if track == "Track2:3" and (outcome_name == "egfr_reduction40_ge"):
-        max_fan_in = max_fan_in -1 # intra-structure in BNT returns a structure where the maximum number of parents is (max_fan_in value) + 1. Therefore subtract 1 to return structure with hdesired number of parents.
+
+    max_fan_in = max_fan_in -1 # intra-structure in BNT returns a structure where the maximum number of parents is (max_fan_in value) + 1. Therefore subtract 1 to return structure with hdesired number of parents.
 
     df = df[intra_cols].copy()
     df = df.values
