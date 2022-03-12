@@ -25,7 +25,10 @@ RAUS is built on top of the Bayes Net Toolbox (BNT) by [Murphy et. al.](https://
 
 Please cite the RAUS software if you use the RAUS software in your work.
 
-The RAUS software is first implemented in the paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset" by David Gordon et al.
+[![DOI](https://zenodo.org/badge/467850159.svg)](https://zenodo.org/badge/latestdoi/467850159)
+
+
+The RAUS software's first implementation is in the paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset" by David Gordon et al.
 
 # How to use RAUS
 
