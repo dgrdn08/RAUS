@@ -21,9 +21,9 @@ RAUS can handle both train test (TT) split and train validation test (TVT) split
 
 RAUS is built on top of the Bayes Net Toolbox (BNT) by [Murphy et. al.](https://github.com/bayesnet/bnt)
 
-### If you use RAUS in your work, please cite the RAUS software.
+## If you use RAUS in your work, please cite the RAUS software.
 
-### The RAUS software is used in paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset".
+## The RAUS software is used in paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset".
 
 # How to use RAUS
 
