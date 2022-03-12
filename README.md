@@ -1,7 +1,7 @@
 # Ranking Approaches for Unknown Structure (RAUS) Learning
 
 ## Summary
-This is the RAUS software.
+This is the Ranking Approaches for Unknown Structures (RAUS) software.
 
 RAUS can readily learn dynamic Bayesian networks (DBNs) and Bayesian networks (BNs) end-to-end as well as be incorporated into existing pipelines as an unknown structure learning engine.
 
@@ -24,6 +24,7 @@ RAUS is built on top of the Bayes Net Toolbox (BNT) by [Murphy et. al.](https://
 ## If you use RAUS in your work, please cite the RAUS software.
 
 ## The RAUS software is used in paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset".
+
 
 # How to use RAUS
 
@@ -61,7 +62,7 @@ $ screen -S AKI_BOS24_raus_track2:3 python AKI_BOS24_track2:3.py & screen -S AKI
 
 ```
 
-To run the pipeline and return RAUS track 1 just for the 48-hour BOS prediction window for the AKI dataset, run:
+To run the pipeline and return RAUS track 1 just for the 48-hour before onset (BOS) prediction window for the AKI dataset, run:
 
 ```shell
 $ screen -S AKI_BOS48_raus_track1 python AKI_BOS48_track1.py
