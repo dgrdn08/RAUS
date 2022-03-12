@@ -1,12 +1,4 @@
 """
-
-    Paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset"
-    Authors: David Gordon, Panayiotis Petousis, Anders O. Garlid, Susanne B. Nicholas, Keith Norris, Katherine Tuttle,
-    and Alex A.T. Bui, on behalf of CURE-CKD
-    Journal: TBD YYYY
-
-    Contact: d.gordon@ucla.edu
-
     This directory contains implementations of RAUS for unknown structure learning algorithms using an AKI dataset.
 
     To run the pipeline and return the RAUS track 1 block 1, run:

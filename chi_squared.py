@@ -1,10 +1,3 @@
-"""
-
-Adapted from crosstab function in researchpy library
-website: https://researchpy.readthedocs.io/en/latest/
-
-"""
-
 import pandas as pd
 import numpy as np
 import scipy.stats

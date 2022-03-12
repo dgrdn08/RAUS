@@ -8,10 +8,6 @@ def IG_MI_Ranking(df,TARGET,COLS):
 
     Efficiently learns variable ordering for unknown structure learning algorithms.
 
-    Paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset"
-    Authors: David Gordon, Panayiotis Petousis, Anders O. Garlid, Susanne B. Nicholas, Keith Norris, Katherine Tuttle,
-    and Alex A.T. Bui, on behalf of CURE-CKD
-    Journal: TBD YYYY
 
     """
 

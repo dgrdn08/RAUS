@@ -7,11 +7,6 @@ def CramersVRank(df, COLS, TARGET):
 
     Efficiently learns variable ordering for unknown structure learning algorithms.
 
-    Paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset"
-    Authors: David Gordon, Panayiotis Petousis, Anders O. Garlid, Susanne B. Nicholas, Keith Norris, Katherine Tuttle,
-    and Alex A.T. Bui, on behalf of CURE-CKD
-    Journal: TBD YYYY
-
     Input arguments:
     - df: the dataframe
     - COLS: the list of predictor names

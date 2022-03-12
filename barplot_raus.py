@@ -1,12 +1,3 @@
-"""
-
-    Paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset"
-    Authors: David Gordon, Panayiotis Petousis, Anders O. Garlid, Susanne B. Nicholas, Keith Norris, Katherine Tuttle,
-    and Alex A.T. Bui, on behalf of CURE-CKD
-    Journal: TBD YYYY
-
-"""
-
 from cramers_v_ranking import CramersVRank
 from chi_squared_ranking import ChiSquareRank
 from information_gain_ranking import IG_MI_Ranking
