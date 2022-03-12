@@ -11,19 +11,19 @@ RAUS is particularly useful for auto-generating and saving learned feature ranki
 
 Further, RAUS can be used to learn the intra-structures and inter-structures required for learning a full network (i.e., connecting static and dynamic variables over time).
 
-Note that python files ending in _track1.py and _track2:3.py run three processes in parallel. Therefore, depending on the number of CPU cores available on your local/remote machine, python files ending in _track1.py and _track2:3.py can be run simultaneously.
+Note that python files ending in _block1.py, _block2.py, and _block3.py are the DBNs and BNs efficiently learned using feature ranking methods (Cramer's V, Chi-squared, and information gain, respectively).
 
-Further, if you want to run RAUS on multiple datasets, different outcomes, multiple sites, and at multiple prediction windows simultaneously, you can run multiple python files ending in _track1.py and multiple python files ending in _track2:3.py in parallel (again depending on the number of CPU cores available on your local/remote machine).
+Further, note that python files ending in _track1.py and _track2:3.py run the python files ending in _block1.py, _block2.py, and _block3.py in parallel (i.e., three processes per track). Therefore, depending on the number of CPU cores available on your local/remote machine, python files ending in _track1.py and _track2:3.py can be run simultaneously (i.e., six processes).
 
-Note that python files ending in _block1.py, _block2.py, and _block3.py are the three different feature ranking methods (Cramer's V, Chi-squared, and information gain, respectively).
+Further, to run RAUS at multiple prediction windows (or on multiple datasets, multiple outcomes, multiple sites) simultaneously, you can run multiple python files ending in _track1.py and multiple python files ending in _track2:3.py in parallel (again depending on the number of CPU cores available on your local/remote machine).
 
 RAUS can handle both train test (TT) split and train validation test (TVT) split input.
 
-RAUS is built on top of the Bayes Net Toolbox (BNT) by [Murphy et al.] (https://github.com/bayesnet/bnt)
+RAUS is built on top of the Bayes Net Toolbox (BNT) by [Murphy et. al.](https://github.com/bayesnet/bnt)
 
-## If you use RAUS in your work, please cite the RAUS software.
+### If you use RAUS in your work, please cite the RAUS software.
 
-## The RAUS software is used in paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset".
+### The RAUS software is used in paper: "Dynamic Bayesian Networks for Predicting Acute Kidney Injury Before Onset".
 
 # How to use RAUS
 
