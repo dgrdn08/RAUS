@@ -391,7 +391,13 @@ def draw_intra_structure(adjacency_matrix,mylabels,method,outcome_name,site,adju
     layout = nx.circular_layout(gr)
 
     plt.figure()
-    nx.draw_networkx(gr,layout,node_size=50,font_size=3,edge_color='red')
+    color_map = []
+    for i in range(0, len(gr)):
+        if i == 0:
+            color_map.append('yellow')
+        else:
+            color_map.append('teal')
+    nx.draw_networkx(gr,layout,node_size=50,font_size=3,node_color=color_map,edge_color='red')
     plt.axis('off')
     path = './intraStructures/visualizations'
 
@@ -412,7 +418,13 @@ def draw_inter_structure(adjacency_matrix_2,mylabels,method,outcome_name,site,ad
 
     plt.figure()
     nx.draw_networkx(gr,layout,node_size=1400,font_size=5,edge_color='black',connectionstyle='arc3, rad = 0.1',style='dashed')
-    nx.draw(gr,layout,node_size=1400,node_color='teal',alpha=1,connectionstyle='arc3, rad = 0.1',style='dashed')
+    color_map0 = []
+    for i in range(0, len(gr)):
+        if i == 0:
+            color_map0.append('yellow')
+        else:
+            color_map0.append('teal')
+    nx.draw(gr,layout,node_size=1400,node_color=color_map0,alpha=1,connectionstyle='arc3, rad = 0.1',style='dashed')
     plt.axis('off')
     path = './interStructures/visualizations'
 
@@ -436,8 +448,20 @@ def draw_compact_structure(adjacency_matrix_1,adjacency_matrix_2,mylabels,method
     layout2 = nx.spiral_layout(gr2,equidistant=True,resolution=0.95)
 
     plt.figure()
-    nx.draw_networkx(gr,layout,node_size=1200,node_color='teal',alpha=1,connectionstyle='arc3, rad = -0.1',font_size=5,font_color='black')
-    nx.draw_networkx(gr2,layout2,node_size=1200,node_color='teal',alpha=1,style='dashed',connectionstyle='arc3, rad = -0.2',font_size=5,font_color='black')
+    color_map1 = []
+    color_map2 = []
+    for i in range(0, len(gr)):
+        if i == 0:
+            color_map1.append('yellow')
+        else:
+            color_map1.append('teal')
+    for i in range(0, len(gr2)):
+        if i == 0:
+            color_map2.append('yellow')
+        else:
+            color_map2.append('teal')
+    nx.draw_networkx(gr,layout,node_size=1200,node_color=color_map1,alpha=1,connectionstyle='arc3, rad = -0.1',font_size=5,font_color='black')
+    nx.draw_networkx(gr2,layout2,node_size=1200,node_color=color_map2,alpha=1,style='dashed',connectionstyle='arc3, rad = -0.2',font_size=5,font_color='black')
 
     plt.axis("off")
     path = './compactStructure/visualizations'
