@@ -7,7 +7,7 @@ UCLA_Test = "/home/ssm-user/data/aki_data_ucla_test.csv"
 # variables
 COLS = (
     "ser_albumin_24hourperiod_0"
-    + "gfr_24hourperiod_0"
+    + " gfr_24hourperiod_0"
     + " ser_calcium_24hourperiod_0"
     + " ser_wbc_24hourperiod_0"
     + " serhemo_24hourperiod_0"
