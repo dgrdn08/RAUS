@@ -41,7 +41,7 @@ track1 = (
     + Clipfront_BOS48
     + " --cols_start "
     + COLS_Start
-    + " --cols_end"
+    + " --cols_end "
     + COLS_End_BOS48
     + " --COLS "
     + COLS
@@ -67,7 +67,7 @@ track1 = (
     + select_best_k
     + " --chi2_top_features "
     + chi2_top_features
-    + " --max_fan_in"
+    + " --max_fan_in "
     + max_fan_in
     + " --clipback "
     + Clipback
