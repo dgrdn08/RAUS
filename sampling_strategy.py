@@ -8,25 +8,25 @@ def temporal_undersampling(dfTrain,TARGET,outcome_name,method,site,adjusted,trac
 
     """
     train_frames = []
-    if outcome_name == 'egfr_reduction40_ge':
-        dfTrain_subset_1 = dfTrain.loc[dfTrain["year1_reduction_40_ge"] == 2]
-        dfTrain_subset_2 = dfTrain.loc[dfTrain["year1_reduction_40_ge"] ==1].sample(n=len(dfTrain_subset_1),random_state=123)
+    if outcome_name == 'TVT':
+        dfTrain_subset_1 = dfTrain.loc[dfTrain["period1_TVT"] == 2]
+        dfTrain_subset_2 = dfTrain.loc[dfTrain["period1_TVT"] ==1].sample(n=len(dfTrain_subset_1),random_state=123)
         dfTrain_subsets1 = dfTrain_subset_1.append(dfTrain_subset_2)
         train_frames.append(dfTrain_subsets1)
-        dfTrain_subset_3 = dfTrain.loc[dfTrain['year2_reduction_40_ge'] == 2]
-        dfTrain_subset_4 = dfTrain.loc[dfTrain['year2_reduction_40_ge'] ==1 ].sample(n=len(dfTrain_subset_3),random_state=123)
+        dfTrain_subset_3 = dfTrain.loc[dfTrain['period2_TVT'] == 2]
+        dfTrain_subset_4 = dfTrain.loc[dfTrain['period2_TVT'] ==1 ].sample(n=len(dfTrain_subset_3),random_state=123)
         dfTrain_subsets2 = dfTrain_subset_3.append(dfTrain_subset_4)
         train_frames.append(dfTrain_subsets2)
-        dfTrain_subset_5 = dfTrain.loc[dfTrain['year3_reduction_40_ge'] == 2]
-        dfTrain_subset_6 = dfTrain.loc[dfTrain['year3_reduction_40_ge'] ==1 ].sample(n=len(dfTrain_subset_5),random_state=123)
+        dfTrain_subset_5 = dfTrain.loc[dfTrain['period3_TVT'] == 2]
+        dfTrain_subset_6 = dfTrain.loc[dfTrain['period3_TVT'] ==1 ].sample(n=len(dfTrain_subset_5),random_state=123)
         dfTrain_subsets3 = dfTrain_subset_5.append(dfTrain_subset_6)
         train_frames.append(dfTrain_subsets3)
-        dfTrain_subset_7 = dfTrain.loc[dfTrain['year4_reduction_40_ge'] == 2]
-        dfTrain_subset_8 = dfTrain.loc[dfTrain['year4_reduction_40_ge'] ==1 ].sample(n=len(dfTrain_subset_7),random_state=123)
+        dfTrain_subset_7 = dfTrain.loc[dfTrain['period4_TVT'] == 2]
+        dfTrain_subset_8 = dfTrain.loc[dfTrain['period4_TVT'] ==1 ].sample(n=len(dfTrain_subset_7),random_state=123)
         dfTrain_subsets4 = dfTrain_subset_7.append(dfTrain_subset_8)
         train_frames.append(dfTrain_subsets4)
-        dfTrain_subset_9 = dfTrain.loc[dfTrain['year5_reduction_40_ge'] == 2]
-        dfTrain_subset_10 = dfTrain.loc[dfTrain['year5_reduction_40_ge'] ==1 ].sample(n=len(dfTrain_subset_9),random_state=123)
+        dfTrain_subset_9 = dfTrain.loc[dfTrain['period5_TVT'] == 2]
+        dfTrain_subset_10 = dfTrain.loc[dfTrain['period5_TVT'] ==1 ].sample(n=len(dfTrain_subset_9),random_state=123)
         dfTrain_subsets5 = dfTrain_subset_9.append(dfTrain_subset_10)
         train_frames.append(dfTrain_subsets5)
         dfDBNTrain = pd.concat(train_frames,axis=0,ignore_index=True)

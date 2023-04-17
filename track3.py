@@ -40,22 +40,22 @@ def main (args):
     # Load Track 2 Outputs
     print('Starting Track 3: Learning DBN Using Track 2 Top Ranking Approach')
     print('Loading Output from Track 2')
-    cv_ap_scores_valid = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "cv_ap_scores_valid")
-    cv_intra_cols = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "cv_intra_cols")
-    cv_ns_list = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "cv_ns_list")
-    cv_dag = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "cv_dag")
-    df = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "df")
-    df2 = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "df2")
-    if args.outcome_name == "egfr_reduction40_ge":
-        df3 = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "df3")
-    chi2_ap_scores_valid = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "chi2_ap_scores_valid")
-    chi2_intra_cols = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "chi2_intra_cols")
-    chi2_ns_list = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "chi2_ns_list")
-    chi2_dag = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "chi2_dag")
-    ig_ap_scores_valid = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "ig_ap_scores_valid")
-    ig_intra_cols = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "ig_intra_cols")
-    ig_ns_list = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "ig_ns_list")
-    ig_dag = Pickleload("./Track3_Inputs/" + args.outcome_name + "_" + "ig_dag")
+    cv_ap_scores_valid = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_ap_scores_valid")
+    cv_intra_cols = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_intra_cols")
+    cv_ns_list = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_ns_list")
+    cv_dag = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_dag")
+    df = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "df")
+    df2 = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "df2")
+    if args.outcome_name == "TVT":
+        df3 = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "df3")
+    chi2_ap_scores_valid = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_ap_scores_valid")
+    chi2_intra_cols = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_intra_cols")
+    chi2_ns_list = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_ns_list")
+    chi2_dag = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_dag")
+    ig_ap_scores_valid = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_ap_scores_valid")
+    ig_intra_cols = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_intra_cols")
+    ig_ns_list = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_ns_list")
+    ig_dag = Pickleload("./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_dag")
 
 
 
@@ -74,7 +74,7 @@ def main (args):
         #graph visualization
         figure1,figure2 =   draw_compact_structure(cv_dag,inter_structure,cv_intra_cols,'cramersv',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
-        if args.outcome_name == 'egfr_reduction40_ge':
+        if args.outcome_name == 'TVT':
 
             dataTrainValid = DBNModel_TVT(df,df2,df3,inter_cols,inter_structure,args.sequence_length_dbn,args.max_iter,cv_dag,cv_ns_list,'cramersv',args.outcome_name,args.site,args.adjusted,args.track,args.ncases)
 
@@ -82,7 +82,7 @@ def main (args):
             dataTrainValid = DBNModel_TT(df,df2,inter_cols,inter_structure,args.sequence_length_dbn,args.max_iter,cv_dag,cv_ns_list,'cramersv',args.outcome_name,args.site,args.adjusted,args.track,args.ncases)
 
     # Evaluate DBN from best ranking approach BN
-        if args.outcome_name == 'egfr_reduction40_ge':
+        if args.outcome_name == 'TVT':
             roc_aucs_valid, ap_scores_valid, fprs_valid, tprs_valid, thresholds_valid, roc_aucs_test, ap_scores_test, fprs_test, tprs_test, thresholds_test = dbn_performance_metrics_tvt(df,df2,df3,dataTrainValid,args.sequence_length_dbn,'cramersv',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
 
         else:
@@ -99,7 +99,7 @@ def main (args):
         #graph visualization
         figure1,figure2 =   draw_compact_structure(chi2_dag,inter_structure,chi2_intra_cols,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
-        if args.outcome_name == 'egfr_reduction40_ge':
+        if args.outcome_name == 'TVT':
 
             dataTrainValid = DBNModel_TVT(df,df2,df3,inter_cols,inter_structure,args.sequence_length_dbn,args.max_iter,chi2_dag,chi2_ns_list,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.track,args.ncases)
 
@@ -109,7 +109,7 @@ def main (args):
 
     # Evaluate DBN from best ranking approach BN
 
-        if args.outcome_name == 'egfr_reduction40_ge':
+        if args.outcome_name == 'TVT':
             roc_aucs_valid, ap_scores_valid, fprs_valid, tprs_valid, thresholds_valid, roc_aucs_test, ap_scores_test, fprs_test, tprs_test, thresholds_test = dbn_performance_metrics_tvt(df,df2,df3,dataTrainValid,args.sequence_length_dbn,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
         else:
             roc_aucs_valid, ap_scores_valid, fprs_valid, tprs_valid, thresholds_valid = dbn_performance_metrics_tt(df,df2,dataTrainValid,args.sequence_length_dbn,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
@@ -127,7 +127,7 @@ def main (args):
         #graph visualization
         figure1,figure2 =   draw_compact_structure(ig_dag,inter_structure,ig_intra_cols,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
-        if args.outcome_name == 'egfr_reduction40_ge':
+        if args.outcome_name == 'TVT':
 
             dataTrainValid = DBNModel_TVT(df,df2,df3,inter_cols,inter_structure,args.sequence_length_dbn,args.max_iter,ig_dag,ig_ns_list,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.track,args.ncases)
 
@@ -136,7 +136,7 @@ def main (args):
 
 
     # Evaluate DBN from best ranking approach BN
-        if args.outcome_name == 'egfr_reduction40_ge':
+        if args.outcome_name == 'TVT':
             roc_aucs_valid, ap_scores_valid, fprs_valid, tprs_valid, thresholds_valid, roc_aucs_test, ap_scores_test, fprs_test, tprs_test, thresholds_test = dbn_performance_metrics_tvt(df,df2,df3,dataTrainValid,args.sequence_length_dbn,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
         else:
             roc_aucs_valid, ap_scores_valid, fprs_valid, tprs_valid, thresholds_valid  = dbn_performance_metrics_tt(df,df2,dataTrainValid,args.sequence_length_dbn,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)

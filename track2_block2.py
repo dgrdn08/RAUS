@@ -17,9 +17,7 @@ from sklearn.metrics import average_precision_score
 import os
 from os import system
 from sklearn.metrics import roc_curve
-from cramers_v_ranking import CramersVRank
 from chi_squared_ranking import ChiSquareRank
-from information_gain_ranking import IG_MI_Ranking
 from barplot_raus import RAUSPlot
 from select_percentile import SelectPercentile
 from sampling_strategy import temporal_undersampling
@@ -30,9 +28,7 @@ def main (args):
 
     """
     Input:
-    - Cramer's V Ranking BN
     - ChiSquared Ranking BN
-    - InformationGain BN
 
     Output:
     - Saves Ranking Figures
@@ -54,7 +50,7 @@ def main (args):
         column_names = ["aki_progression_" + str(m) + "days" for m in range(1,8)]
         df_Valid[column_names] = df_Valid[column_names] + 1 # Octave format starts at 1
     #print(df_Valid.head(10))
-    if args.outcome_name == "egfr_reduction40_ge":
+    if args.outcome_name == "TVT":
         df_Test = pd.read_csv(args.file_name_test, low_memory = False)
         #print(df_Test.head(10))
 
@@ -83,17 +79,17 @@ def main (args):
     figure1,figure2 = draw_intra_structure(chi2_dag,chi2_intra_cols,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
     df2 = df_Valid.copy()
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         df3 = df_Test.copy()
 
     # Chi2-BN Component
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         chi2_dataTrainValid = BNModel_TVT(df,df2,df3,chi2_intra_cols,args.sequence_length_bn,chi2_dag,chi2_ns_list,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.sequence_length_bn,args.track,args.ncases)
     else:
         chi2_dataTrainValid = BNModel_TT(df,df2,chi2_intra_cols,args.sequence_length_bn,chi2_dag,chi2_ns_list,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.sequence_length_bn,args.track,args.ncases)
 
     # Evaluate Chi2-BN
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         chi2_roc_aucs_valid, chi2_ap_scores_valid, chi2_fprs_valid, chi2_tprs_valid, chi2_thresholds_valid, chi2_roc_aucs_test, chi2_ap_scores_test, chi2_fprs_test, chi2_tprs_test, chi2_thresholds_test = bn_performance_metrics_tvt(df,df2,df3,chi2_dataTrainValid,target,args.sequence_length_bn,'chisquarerank',args.outcome_name,args.site,args.adjusted,args.ncases,args.track)
 
     else:
@@ -104,10 +100,10 @@ def main (args):
     output = {'save_RAUS_figure': save_figure1}
 
     # Pickle dump output to use in track 3
-    Pickledump(chi2_ap_scores_valid,"./Track3_Inputs/" + args.outcome_name + "_" + "chi2_ap_scores_valid")
-    Pickledump(chi2_intra_cols,"./Track3_Inputs/" + args.outcome_name + "_" + "chi2_intra_cols")
-    Pickledump(chi2_ns_list,"./Track3_Inputs/" + args.outcome_name + "_" + "chi2_ns_list")
-    Pickledump(chi2_dag,"./Track3_Inputs/" + args.outcome_name + "_" + "chi2_dag")
+    Pickledump(chi2_ap_scores_valid,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_ap_scores_valid")
+    Pickledump(chi2_intra_cols,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_intra_cols")
+    Pickledump(chi2_ns_list,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_ns_list")
+    Pickledump(chi2_dag,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "chi2_dag")
 
     return output
 

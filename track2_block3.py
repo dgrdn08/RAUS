@@ -17,8 +17,6 @@ from sklearn.metrics import average_precision_score
 import os
 from os import system
 from sklearn.metrics import roc_curve
-from cramers_v_ranking import CramersVRank
-from chi_squared_ranking import ChiSquareRank
 from information_gain_ranking import IG_MI_Ranking
 from barplot_raus import RAUSPlot
 from select_percentile import SelectPercentile
@@ -30,8 +28,6 @@ def main (args):
 
     """
     Input:
-    - Cramer's V Ranking BN
-    - ChiSquared Ranking BN
     - InformationGain BN
 
     Output:
@@ -54,7 +50,7 @@ def main (args):
         column_names = ["aki_progression_" + str(m) + "days" for m in range(1,8)]
         df_Valid[column_names] = df_Valid[column_names] + 1 # Octave format starts at 1
     #print(df_Valid.head(10))
-    if args.outcome_name == "egfr_reduction40_ge":
+    if args.outcome_name == "TVT":
         df_Test = pd.read_csv(args.file_name_test, low_memory = False)
         #print(df_Test.head(10))
 
@@ -85,17 +81,17 @@ def main (args):
     figure1,figure2 = draw_intra_structure(ig_dag,ig_intra_cols,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
     df2 = df_Valid.copy()
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         df3 = df_Test.copy()
 
     # IG-BN Component
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         ig_dataTrainValid = BNModel_TVT(df,df2,df3,ig_intra_cols,args.max_iter,ig_dag,ig_ns_list,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.sequence_length_bn,args.track,args.ncases)
     else:
         ig_dataTrainValid = BNModel_TT(df,df2,ig_intra_cols,args.max_iter,ig_dag,ig_ns_list,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.sequence_length_bn,args.track,args.ncases)
 
     # Evaluate IG-BN
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         ig_roc_aucs_valid, ig_ap_scores_valid, ig_fprs_valid, ig_tprs_valid, ig_thresholds_valid, ig_roc_aucs_test, ig_ap_scores_test, ig_fprs_test, ig_tprs_test, ig_thresholds_test = bn_performance_metrics_tvt(df,df2,df3,ig_dataTrainValid,target,args.sequence_length_bn,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.ncases,args.track)
     else:
         ig_roc_aucs_valid, ig_ap_scores_valid, ig_fprs_valid, ig_tprs_valid, ig_thresholds_valid = bn_performance_metrics_tt(df,df2,ig_dataTrainValid,target,args.sequence_length_bn,'ig_mi_ranking',args.outcome_name,args.site,args.adjusted,args.ncases,args.track)
@@ -105,10 +101,10 @@ def main (args):
     output = {'save_RAUS_figure': save_figure1}
 
     # Pickle dump output to use in track 3
-    Pickledump(ig_ap_scores_valid,"./Track3_Inputs/" + args.outcome_name + "_" + "ig_ap_scores_valid")
-    Pickledump(ig_intra_cols,"./Track3_Inputs/" + args.outcome_name + "_" + "ig_intra_cols")
-    Pickledump(ig_ns_list,"./Track3_Inputs/" + args.outcome_name + "_" + "ig_ns_list")
-    Pickledump(ig_dag,"./Track3_Inputs/" + args.outcome_name + "_" + "ig_dag")
+    Pickledump(ig_ap_scores_valid,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_ap_scores_valid")
+    Pickledump(ig_intra_cols,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_intra_cols")
+    Pickledump(ig_ns_list,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_ns_list")
+    Pickledump(ig_dag,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "ig_dag")
 
     return output
 

@@ -18,8 +18,6 @@ import os
 from os import system
 from sklearn.metrics import roc_curve
 from cramers_v_ranking import CramersVRank
-from chi_squared_ranking import ChiSquareRank
-from information_gain_ranking import IG_MI_Ranking
 from barplot_raus import RAUSPlot
 from select_percentile import SelectPercentile
 from sampling_strategy import temporal_undersampling
@@ -31,8 +29,6 @@ def main (args):
     """
     Input:
     - Cramer's V Ranking BN
-    - ChiSquared Ranking BN
-    - InformationGain BN
 
     Output:
     - Saves Ranking Figures
@@ -54,7 +50,7 @@ def main (args):
         column_names = ["aki_progression_" + str(m) + "days" for m in range(1,8)]
         df_Valid[column_names] = df_Valid[column_names] + 1 # Octave format starts at 1
     #print(df_Valid.head(10))
-    if args.outcome_name == "egfr_reduction40_ge":
+    if args.outcome_name == "TVT":
         df_Test = pd.read_csv(args.file_name_test, low_memory = False)
         #print(df_Test.head(10))
 
@@ -87,11 +83,11 @@ def main (args):
     figure1,figure2 = draw_intra_structure(cv_dag,cv_intra_cols,'cramersv',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
     df2 = df_Valid.copy()
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         df3 = df_Test.copy()
 
     # CV-BN Component
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         cv_dataTrainValid = BNModel_TVT(df,df2,df3,cv_intra_cols,args.max_iter,cv_dag,cv_ns_list,'cramersv',args.outcome_name,args.site,args.adjusted,args.sequence_length_bn,args.track,args.ncases)
 
     else:
@@ -101,7 +97,7 @@ def main (args):
 
 
     # Evaluate CV-BN
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         cv_roc_aucs_valid, cv_ap_scores_valid, cv_fprs_valid, cv_tprs_valid, cv_thresholds_valid, cv_roc_aucs_test, cv_ap_scores_test, cv_fprs_test, cv_tprs_test, cv_thresholds_test = bn_performance_metrics_tvt(df,df2,df3,cv_dataTrainValid,target,args.sequence_length_bn,'cramersv',args.outcome_name,args.site,args.adjusted,args.ncases,args.track)
 
     else:
@@ -112,14 +108,14 @@ def main (args):
     output = {'save_RAUS_figure': save_figure1}
 
     # Pickle dump output to use in track 3
-    Pickledump(cv_ap_scores_valid,"./Track3_Inputs/" + args.outcome_name + "_" + "cv_ap_scores_valid")
-    Pickledump(cv_intra_cols,"./Track3_Inputs/" + args.outcome_name + "_" + "cv_intra_cols")
-    Pickledump(cv_ns_list,"./Track3_Inputs/" + args.outcome_name + "_" + "cv_ns_list")
-    Pickledump(cv_dag,"./Track3_Inputs/" + args.outcome_name + "_" + "cv_dag")
-    Pickledump(df,"./Track3_Inputs/" + args.outcome_name + "_" + "df")
-    Pickledump(df2,"./Track3_Inputs/" + args.outcome_name + "_" + "df2")
-    if args.outcome_name == 'egfr_reduction40_ge':
-        Pickledump(df3,"./Track3_Inputs/" + args.outcome_name + "_" + "df3")
+    Pickledump(cv_ap_scores_valid,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_ap_scores_valid")
+    Pickledump(cv_intra_cols,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_intra_cols")
+    Pickledump(cv_ns_list,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_ns_list")
+    Pickledump(cv_dag,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_dag")
+    Pickledump(df,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "df")
+    Pickledump(df2,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "df2")
+    if args.outcome_name == 'TVT':
+        Pickledump(df3,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "df3")
 
 
     return output

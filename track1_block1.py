@@ -11,6 +11,7 @@ $ python track1_block1.py
 import argparse
 import pandas as pd
 import numpy as np
+import pickle
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import average_precision_score
 import os
@@ -21,20 +22,19 @@ from barplot_raus import RAUSPlot
 from select_percentile import SelectPercentile
 from sampling_strategy import temporal_undersampling
 from learn_structures import dbn_cols_intra,NodeSize,Inter_NodeSize,DBN_NodeSize,intra_struct,BNModel_TT,BNModel_TVT,dbn_cols_inter,inter_struct,DBNModel_TT,DBNModel_TVT, draw_intra_structure, draw_inter_structure,draw_compact_structure
-from performance_metrics import dbn_performance_metrics_tvt,dbn_performance_metrics_tt
+from performance_metrics import dbn_performance_metrics_tvt,dbn_performance_metrics_tt, Pickledump, Pickleload
 
 def main (args):
 
     """
     Input:
     - Cramer's V Ranking DBN
-    - ChiSquared Ranking DBN
-    - InformationGain DBN
 
     Output:
     - Saves Ranking Figures
     - Intrastructures
     - Interstructures
+    - Compactstructure
 
     """
 
@@ -52,7 +52,7 @@ def main (args):
         column_names = ["aki_progression_" + str(m) + "days" for m in range(1,8)]
         df_Valid[column_names] = df_Valid[column_names] + 1 # Octave format starts at 1
     #print(df_Valid.head(10))
-    if args.outcome_name == "egfr_reduction40_ge":
+    if args.outcome_name == "TVT":
         df_Test = pd.read_csv(args.file_name_test, low_memory = False)
         #print(df_Test.head(10))
 
@@ -85,14 +85,14 @@ def main (args):
     figure1,figure2 = draw_intra_structure(cv_dag,cv_intra_cols,'cramersv',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
     df2 = df_Valid.copy()
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         df3 = df_Test.copy()
 
     #DBN Component
     cv_inter_cols,targets = dbn_cols_inter(cv_intra_cols,args.sequence_length_dbn,args.cols_start,"",args.cols_end,"_",args.outcome_name)
     #print('Inter_Cols:', cv_inter_cols) #to check inter columns
 
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         cv_inter_ns_list = Inter_NodeSize(df,cv_intra_cols,cv_inter_cols)
         cv_inter_structure = inter_struct(df,cv_inter_cols,cv_inter_ns_list,'cramersv',args.outcome_name,args.site,args.adjusted,args.sequence_length_dbn,args.track,args.max_fan_in)
     else:
@@ -103,7 +103,7 @@ def main (args):
     #graph visualization
     figure1,figure2 = draw_compact_structure(cv_dag,cv_inter_structure,cv_intra_cols,'cramersv',args.outcome_name,args.site,args.adjusted,args.track,args.clipback,args.clipfront)
 
-    if args.outcome_name == 'egfr_reduction40_ge':
+    if args.outcome_name == 'TVT':
         cv_dbn_ns_list = DBN_NodeSize(df,cv_intra_cols,cv_inter_cols)
         cv_dataTrainValid = DBNModel_TVT(df,df2,df3,cv_inter_cols,cv_inter_structure,args.sequence_length_dbn,args.max_iter,cv_dag,cv_dbn_ns_list,'cramersv',args.outcome_name,args.site,args.adjusted,args.track,args.ncases)
 
@@ -112,12 +112,18 @@ def main (args):
 
 
     #Evaluation Component
-    if args.outcome_name == 'egfr_reduction40_ge':
-        roc_aucs_valid, ap_scores_valid, fprs_valid, tprs_valid, thresholds_valid, roc_aucs_test, ap_scores_test, fprs_test, tprs_test, thresholds_test = dbn_performance_metrics_tvt(df,df2,df3,cv_dataTrainValid,args.sequence_length_dbn,'cramersv',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
+    if args.outcome_name == 'TVT':
+        cv_roc_aucs_valid, cv_ap_scores_valid, cv_fprs_valid, cv_tprs_valid, cv_thresholds_valid, cv_roc_aucs_test, cv_ap_scores_test, cv_fprs_test, cv_tprs_test, cv_thresholds_test = dbn_performance_metrics_tvt(df,df2,df3,cv_dataTrainValid,args.sequence_length_dbn,'cramersv',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
 
     else:
-        roc_aucs_valid, ap_scores_valid, fprs_valid, tprs_valid, thresholds_valid = dbn_performance_metrics_tt(df,df2,cv_dataTrainValid,args.sequence_length_dbn,'cramersv',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
+        cv_roc_aucs_valid, cv_ap_scores_valid, cv_fprs_valid, cv_tprs_valid, cv_thresholds_valid = dbn_performance_metrics_tt(df,df2,cv_dataTrainValid,args.sequence_length_dbn,'cramersv',args.outcome_name,args.site,args.adjusted,args.ncases,targets,args.track)
 
+
+    # Pickle dump output
+    Pickledump(cv_ap_scores_valid,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_ap_scores_valid")
+    Pickledump(cv_inter_cols,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_inter_cols")
+    Pickledump(cv_inter_structure,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_inter_structure")
+    Pickledump(cv_ns_list,"./Track_Inputs/" + args.outcome_name + "_" + args.site + "_" + args.track + "_" + "cv_ns_list")
 
 
     output = {'save_RAUS_figure': save_figure1}

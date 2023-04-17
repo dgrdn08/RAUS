@@ -10,11 +10,142 @@ $ screen -S raus_aki_bos72_track2:3 python AKI_BOS72_track2:3.py
 
 import os
 from multiprocessing import Pool
+from RAUS_CONSTANTS import *
 
 
-track2 = ("track2_block1.py --file_name_train '/home/ssm-user/data/aki_data_ucla_train.csv' --file_name_valid '/home/ssm-user/data/aki_data_ucla_test.csv' --sequence_length_bn 1 --max_iter 10 --track 'Track2:3' --site 'UCLA' --adjusted '' --outcome_name 'AKI_BOS72' --select_best_k 1 --cv_top_features 8 --max_fan_in 10 --clipback '_24hourperiod_0' --clipfront '_4days' --cols_start '24hourperiod_0' --cols_end '_4days' --COLS ser_albumin_24hourperiod_0 gfr_24hourperiod_0 ser_calcium_24hourperiod_0 ser_wbc_24hourperiod_0 serhemo_24hourperiod_0 serbun_24hourperiod_0 ser_sodium_24hourperiod_0 ser_potassium_24hourperiod_0 --TARGET aki_progression_4days", "track2_block2.py --file_name_train '/home/ssm-user/data/aki_data_ucla_train.csv' --file_name_valid '/home/ssm-user/data/aki_data_ucla_test.csv' --sequence_length_bn 1 --max_iter 10 --track 'Track2:3' --site 'UCLA' --adjusted '' --outcome_name 'AKI_BOS72' --select_best_k 1 --chi2_top_features 8 --max_fan_in 10 --clipback '_24hourperiod_0' --clipfront '_4days' --cols_start '24hourperiod_0' --cols_end '_4days' --COLS ser_albumin_24hourperiod_0 gfr_24hourperiod_0 ser_calcium_24hourperiod_0 ser_wbc_24hourperiod_0 serhemo_24hourperiod_0 serbun_24hourperiod_0 ser_sodium_24hourperiod_0 ser_potassium_24hourperiod_0 --TARGET aki_progression_4days","track2_block3.py --file_name_train '/home/ssm-user/data/aki_data_ucla_train.csv' --file_name_valid '/home/ssm-user/data/aki_data_ucla_test.csv' --sequence_length_bn 1 --max_iter 10 --track 'Track2:3' --site 'UCLA' --adjusted '' --outcome_name 'AKI_BOS72' --select_best_k 1 --ig_top_features 8 --max_fan_in 10 --clipback '_24hourperiod_0' --clipfront '_4days' --cols_start '24hourperiod_0' --cols_end '_4days' --COLS ser_albumin_24hourperiod_0 gfr_24hourperiod_0 ser_calcium_24hourperiod_0 ser_wbc_24hourperiod_0 serhemo_24hourperiod_0 serbun_24hourperiod_0 ser_sodium_24hourperiod_0 ser_potassium_24hourperiod_0 --TARGET aki_progression_4days")
+track2 = (
+    "track2_block1.py --file_name_train "
+    + UCLA_Train
+    + " --file_name_valid "
+    + UCLA_Test
+    + " --max_iter "
+    + max_iterations
+    + " --sequence_length_bn "
+    + seq_len_bn
+    + " --track "
+    + Track2
+    + " --site "
+    + UCLA
+    + " --adjusted ''"
+    + " --outcome_name "
+    + Outcome_BOS72
+    + " --select_best_k "
+    + select_best_k
+    + " --cv_top_features "
+    + cv_top_features
+    + " --max_fan_in "
+    + max_fan_in
+    + "--clipback "
+    + Clipback
+    + " --clipfront "
+    + Clipfront_BOS72
+    + " --cols_start "
+    + COLS_Start
+    + " --cols_end"
+    + COLS_End_BOS72
+    + " --COLS "
+    + COLS
+    + " --TARGET "
+    + TARGET_BOS72
+    + " ",
+    "track2_block2.py --file_name_train "
+    + UCLA_Train
+    + " --file_name_valid "
+    + UCLA_Test
+    + " --max_iter "
+    + max_iterations
+    + " --sequence_length_bn "
+    + seq_len_bn
+    + " --track "
+    + Track2
+    + " --site "
+    + UCLA
+    + " --adjusted ''"
+    + " --outcome_name "
+    + Outcome_BOS72
+    + " --select_best_k "
+    + select_best_k
+    + " --chi2_top_features "
+    + chi2_top_features
+    + " --max_fan_in"
+    + max_fan_in
+    + "--clipback "
+    + Clipback
+    + " --clipfront "
+    + Clipfront_BOS72
+    + " --cols_start "
+    + COLS_Start
+    + " --cols_end "
+    + COLS_End_BOS72
+    + " --COLS "
+    + COLS
+    + "--TARGET "
+    + TARGET_BOS72
+    + " ",
+    "track2_block3.py --file_name_train "
+    + UCLA_Train
+    + " --file_name_valid "
+    + UCLA_Test
+    + " --max_iter "
+    + max_iterations
+    + " --sequence_length_bn "
+    + seq_len_bn
+    + " --track "
+    + Track2
+    + " --site "
+    + UCLA
+    + " --adjusted ''"
+    + " --outcome_name "
+    + Outcome_BOS72
+    + " --select_best_k "
+    + select_best_k
+    + " --ig_top_features "
+    + ig_top_features
+    + "--max_fan_in "
+    + max_fan_in
+    + " --clipback "
+    + Clipback
+    + " --clipfront "
+    + Clipfront_BOS72
+    + " --cols_start "
+    + COLS_Start
+    + " --cols_end "
+    + COLS_End_BOS72
+    + " --COLS "
+    + COLS
+    + "--TARGET"
+    + TARGET_BOS72
+    + " ",
+)
 
-track3 = ("track3.py --max_iter 10 --sequence_length_dbn 4 --track 'Track2:3' --site 'UCLA' --adjusted '' --outcome_name 'AKI_BOS72' --cols_start '24hourperiod_0' --cols_end '_4days' --max_fan_in 10 --clipback '_24hourperiod_0' --clipfront '_4days' --COLS ser_albumin_24hourperiod_0 gfr_24hourperiod_0 ser_calcium_24hourperiod_0 ser_wbc_24hourperiod_0 serhemo_24hourperiod_0 serbun_24hourperiod_0 ser_sodium_24hourperiod_0 ser_potassium_24hourperiod_0 --TARGET aki_progression_4days",)
+track3 = (
+    "track3.py --max_iter "
+    + max_iterations
+    + " --sequence_length_dbn "
+    + seq_len_dbn_bos72
+    + " --track "
+    + Track2
+    + " --site "
+    + UCLA
+    + " --adjusted ''"
+    + " --outcome_name "
+    + Outcome_BOS72
+    + " --cols_start "
+    + COLS_Start
+    + " --cols_end "
+    + COLS_End_BOS72
+    + " --max_fan_in "
+    + max_fan_in
+    + " --clipback "
+    + Clipback
+    + " --clipfront "
+    + Clipfront_BOS72
+    + " --COLS "
+    + COLS
+    + " --TARGET "
+    + TARGET_BOS72
+    + " ",
+)
 
 
 def run_process(process):
