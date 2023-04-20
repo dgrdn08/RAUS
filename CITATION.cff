@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Gordon"
+  given-names: "David"
+title: "RAUS: Ranking Approaches for Unknown Structure Learning"
+doi: 10.5281/zenodo.6348852
+date-released: 2022-03-12
+url: "https://github.com/dgrdn08/RAUS"
